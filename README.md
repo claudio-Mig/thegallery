@@ -1,77 +1,101 @@
-# Sistema di Prenotazione Eventi - The Gallery
+# Sistema di Prenotazione - Quadri Plastici di Avigliano
 
-Sistema completo di prenotazione per eventi con slot temporali programmati. Costruito con React, Vite, Supabase e Tailwind CSS.
+Sistema completo di prenotazione online per i **Quadri Plastici di Avigliano**, il tradizionale Presepe vivente nel centro storico di Avigliano (PZ). Costruito con React, Vite, Supabase e Tailwind CSS.
 
-## 📋 Caratteristiche
+## 🎭 L'Evento
 
-- **4 Eventi su 4 Giornate**: Gestione di eventi distribuiti su giornate diverse
-- **Slot Temporali Programmati**: Ingressi ogni 7:30 minuti dalle 16:00 alle 21:22
-- **12 Posti per Slot**: Ogni slot temporale può ospitare fino a 12 persone
-- **Prenotazione in Tempo Reale**: Verifica immediata della disponibilità
-- **Sistema di Pagamento**: Integrazione pronta per pagamenti online
-- **Interfaccia Responsive**: Ottimizzata per desktop e mobile
-- **Gestione Codici Prenotazione**: Sistema automatico di generazione codici univoci
+I **Quadri Plastici di Avigliano** sono una rappresentazione vivente del Presepe che si svolge tra i caratteristici vicoli del centro storico di Avigliano. Un viaggio emozionante nella tradizione natalizia lucana, dove figuranti in costume d'epoca ricreano le scene della Natività.
 
-## 🏗️ Architettura
+### 📅 Date Edizione 2024/2025
+
+- **Prima Serata**: Domenica 15 Dicembre 2024
+- **Seconda Serata**: Domenica 22 Dicembre 2024
+- **Terza Serata**: Domenica 29 Dicembre 2024
+- **Quarta Serata**: Domenica 5 Gennaio 2025
+
+**Orari**: Ingressi dalle 16:00 alle 21:22 (ultimo ingresso)
+**Location**: Centro Storico, Avigliano (PZ)
+**Prezzo**: €5,00 per persona
+
+## 📋 Caratteristiche del Sistema
+
+- **Prenotazione Online**: Sistema completo per prenotare l'ingresso alle 4 serate
+- **Ingressi Contingentati**: Slot temporali ogni 7:30 minuti per garantire la migliore esperienza
+- **Gruppi Limitati**: Massimo 12 persone per gruppo
+- **Gestione Real-time**: Verifica immediata della disponibilità posti
+- **Codice Prenotazione**: Generazione automatica di codici univoci
+- **Interfaccia Responsive**: Ottimizzata per desktop, tablet e mobile
+- **Design Personalizzato**: Tema rosso e oro ispirati alla tradizione
+
+## 🏗️ Architettura Tecnica
 
 ### Frontend
 - **React 18** con Vite per prestazioni ottimali
 - **Tailwind CSS** per uno styling moderno e responsive
-- **date-fns** per la gestione delle date
+- **date-fns** con localizzazione italiana
+- Componenti modulari e riutilizzabili
 
 ### Backend
-- **Supabase** per database PostgreSQL, autenticazione e API real-time
+- **Supabase** per database PostgreSQL cloud
 - **Row Level Security (RLS)** per la sicurezza dei dati
 - Funzioni database per logica business server-side
+- API real-time per aggiornamenti disponibilità
 
-## 🚀 Setup Iniziale
+## 🚀 Setup e Installazione
 
 ### 1. Prerequisiti
 
 - Node.js 18+ e npm installati
-- Account Supabase (gratuito su [supabase.com](https://supabase.com))
+- Account Supabase gratuito ([supabase.com](https://supabase.com))
+- Git
 
-### 2. Installazione Dipendenze
+### 2. Clone e Installazione
 
 ```bash
+# Clone del repository
+git clone [url-repository]
+cd thegallery
+
+# Installazione dipendenze
 npm install
 ```
 
 ### 3. Configurazione Supabase
 
-#### 3.1 Crea un Progetto Supabase
+#### 3.1 Crea Progetto Supabase
 
 1. Vai su [supabase.com](https://supabase.com) e crea un nuovo progetto
-2. Annota l'URL del progetto e la chiave API (anon key)
+2. Scegli una region (consigliato: EU per l'Italia)
+3. Annota l'**URL del progetto** e la **chiave API (anon key)**
 
-#### 3.2 Configura il Database
+#### 3.2 Configura Database
 
-1. Vai nella sezione **SQL Editor** del tuo progetto Supabase
-2. Esegui il contenuto del file `supabase/schema.sql` per creare le tabelle
-3. Esegui il contenuto del file `supabase/seed.sql` per popolare i dati di esempio
-
-**Importante**: Modifica le date nel file `seed.sql` prima di eseguirlo:
+1. Nel tuo progetto Supabase, vai in **SQL Editor**
+2. Crea una nuova query e incolla il contenuto di `supabase/schema.sql`
+3. Esegui la query per creare tabelle, funzioni e trigger
+4. Crea un'altra query con il contenuto di `supabase/seed.sql`
+5. **IMPORTANTE**: Verifica le date nel seed.sql prima di eseguire
+6. Esegui la query per popolare i dati degli eventi
 
 ```sql
--- Cambia queste date con quelle dei tuoi eventi
-INSERT INTO events (title, description, event_date, price, status) VALUES
-('Evento Serale - Giorno 1', 'Prima serata...', '2024-12-15', 25.00, 'active'),
--- ... altre date
+-- Le date nel seed.sql sono:
+-- 15 Dicembre 2024, 22 Dicembre 2024, 29 Dicembre 2024, 5 Gennaio 2025
+-- Modifica se necessario prima di eseguire
 ```
 
 ### 4. Configurazione Variabili d'Ambiente
 
-1. Copia il file `.env.example` in `.env`:
-
 ```bash
+# Copia il template
 cp .env.example .env
+
+# Modifica .env con i tuoi valori
 ```
 
-2. Modifica `.env` con le tue credenziali Supabase:
-
+Contenuto `.env`:
 ```env
 VITE_SUPABASE_URL=https://tuo-progetto.supabase.co
-VITE_SUPABASE_ANON_KEY=tua-chiave-anon
+VITE_SUPABASE_ANON_KEY=tua-chiave-anon-key-qui
 ```
 
 ### 5. Avvia il Server di Sviluppo
@@ -87,213 +111,274 @@ L'applicazione sarà disponibile su `http://localhost:5173`
 ### Tabelle Principali
 
 #### `events`
-- Gestisce le informazioni degli eventi
-- Campi: id, title, description, event_date, start_time, last_entry_time, price, status
+Gestisce le 4 serate dei Quadri Plastici
+- `id` (UUID): Identificativo univoco
+- `title` (VARCHAR): Titolo evento (es. "Quadri Plastici - Prima Serata")
+- `description` (TEXT): Descrizione dettagliata
+- `event_date` (DATE): Data dell'evento
+- `price` (DECIMAL): Prezzo biglietto (5.00€)
+- `start_time` (TIME): Ora inizio ingressi (16:00)
+- `last_entry_time` (TIME): Ultimo ingresso (21:22)
+- `status` (VARCHAR): Stato evento (active/cancelled/completed)
 
 #### `time_slots`
-- Slot temporali per ogni evento
-- Generati automaticamente con la funzione `generate_time_slots()`
-- Campi: id, event_id, slot_time, max_capacity, available_spots, status
+Slot temporali per ogni evento (generati automaticamente)
+- `id` (UUID): Identificativo univoco
+- `event_id` (UUID): Riferimento all'evento
+- `slot_time` (TIME): Orario slot (16:00, 16:07, 16:15, ecc.)
+- `max_capacity` (INTEGER): Capacità massima (12)
+- `available_spots` (INTEGER): Posti disponibili
+- `status` (VARCHAR): Stato slot (available/full/closed)
 
 #### `bookings`
-- Prenotazioni degli utenti
-- Campi: id, event_id, time_slot_id, user_email, user_name, num_tickets, total_amount, booking_reference, payment_status
+Prenotazioni degli utenti
+- `id` (UUID): Identificativo univoco
+- `event_id` (UUID): Evento prenotato
+- `time_slot_id` (UUID): Slot temporale
+- `user_name` (VARCHAR): Nome utente
+- `user_email` (VARCHAR): Email utente
+- `user_phone` (VARCHAR): Telefono utente
+- `num_tickets` (INTEGER): Numero biglietti (1-12)
+- `total_amount` (DECIMAL): Importo totale
+- `booking_reference` (VARCHAR): Codice univoco prenotazione
+- `payment_status` (VARCHAR): Stato pagamento
+- `status` (VARCHAR): Stato prenotazione
 
 ## 🕐 Logica Slot Temporali
 
-Gli slot seguono questo pattern per ogni ora dalle 16:00 alle 21:00:
-- **:00** - Primo slot (es. 16:00)
-- **:07** - Secondo slot (es. 16:07)
-- **:15** - Terzo slot (es. 16:15)
-- **:22** - Quarto slot (es. 16:22)
-- **:30** - Quinto slot (es. 16:30)
-- **:37** - Sesto slot (es. 16:37)
+Gli ingressi sono organizzati con questo pattern ogni ora:
+
+**Pattern orario** (ripetuto dalle 16:00 alle 21:00):
+- **:00** - Primo gruppo (es. 16:00, 17:00, 18:00...)
+- **:07** - Secondo gruppo
+- **:15** - Terzo gruppo
+- **:22** - Quarto gruppo
+- **:30** - Quinto gruppo
+- **:37** - Sesto gruppo
 
 **Ultimo ingresso**: 21:22
 
-Questo pattern fornisce:
-- 6 slot all'ora
-- 36 slot totali per evento (16:00-21:22)
-- 432 posti totali per evento (36 slot × 12 posti)
+Questo garantisce:
+- 6 gruppi all'ora
+- Circa 7:30 minuti tra un gruppo e l'altro
+- 36 slot totali per serata (16:00-21:22)
+- 432 posti totali per serata (36 slot × 12 persone)
+- **1.728 posti totali** per l'intera manifestazione (4 serate)
 
 ## 📱 Flusso Utente
 
-1. **Selezione Evento**: L'utente visualizza i 4 eventi disponibili
-2. **Scelta Slot**: Selezione dell'orario di ingresso desiderato
-3. **Form Prenotazione**: Inserimento dati e numero biglietti
-4. **Conferma**: Visualizzazione codice prenotazione e dettagli
+1. **Homepage**: Visualizzazione delle 4 serate disponibili con date e dettagli
+2. **Selezione Slot**: Scelta dell'orario di ingresso preferito
+3. **Form Prenotazione**: Inserimento dati (nome, email, telefono, numero biglietti)
+4. **Conferma**: Visualizzazione codice prenotazione e istruzioni
+
+### Informazioni Fornite all'Utente
+
+Alla conferma della prenotazione, l'utente riceve:
+- **Codice prenotazione univoco** (da portare all'evento)
+- Riepilogo completo (data, ora, numero biglietti)
+- **Istruzioni importanti**:
+  - Presentarsi 10 minuti prima dell'orario
+  - Punto di ritrovo nel centro storico
+  - Pagamento all'ingresso (€5,00/persona)
+  - Durata percorso: 45-60 minuti
+  - Percorso in gruppo (max 12 persone)
 
 ## 🔧 Funzionalità Database Avanzate
 
 ### Generazione Automatica Slot
 
+La funzione `generate_time_slots(event_id)` crea automaticamente tutti gli slot:
+
 ```sql
--- Genera slot per un evento
-SELECT generate_time_slots('event-id-qui');
+-- Esempio: genera slot per un evento
+SELECT generate_time_slots('uuid-evento-qui');
 ```
 
-### Aggiornamento Automatico Disponibilità
+### Aggiornamento Disponibilità Automatico
 
-I trigger aggiornano automaticamente `available_spots` quando:
-- Viene creata una prenotazione
-- Viene cancellata una prenotazione
+I trigger PostgreSQL gestiscono automaticamente:
+- Decremento `available_spots` quando si crea una prenotazione
+- Cambio `status` a "full" quando i posti finiscono
+- Ripristino disponibilità in caso di cancellazione
 
-### Trigger e Funzioni
+### Trigger Implementati
 
-- `update_updated_at_column()`: Aggiorna timestamp di modifica
-- `update_slot_availability()`: Gestisce la disponibilità degli slot
-- `generate_time_slots()`: Crea slot temporali per un evento
+- `update_updated_at_column()`: Timestamp automatico di modifica
+- `update_slot_availability()`: Gestione disponibilità posti
+- `generate_time_slots()`: Creazione slot temporali
 
 ## 🎨 Personalizzazione
 
-### Modificare il Pattern degli Slot
+### Modificare Date o Prezzo
 
-Modifica la funzione `generate_time_slots` in `supabase/schema.sql`:
-
-```sql
-v_minutes := ARRAY[0, 7, 15, 22, 30, 37]; -- Cambia questi valori
-```
-
-### Modificare Capacità Slot
-
-Nel file schema.sql, modifica:
+Modifica `supabase/seed.sql` prima di eseguirlo:
 
 ```sql
-max_capacity INTEGER NOT NULL DEFAULT 12, -- Cambia il numero
+INSERT INTO events (title, description, event_date, price, status) VALUES
+(
+  'Quadri Plastici - Prima Serata',
+  'Descrizione...',
+  '2024-12-15',  -- ← Cambia data
+  5.00,          -- ← Cambia prezzo
+  'active'
+);
 ```
 
-### Stili e Design
+### Modificare Pattern Slot Temporali
 
-I componenti utilizzano Tailwind CSS. Personalizza i colori in `tailwind.config.js`:
+Modifica la funzione in `supabase/schema.sql`:
+
+```sql
+-- Attuale: [0, 7, 15, 22, 30, 37]
+v_minutes := ARRAY[0, 7, 15, 22, 30, 37];
+```
+
+### Modificare Capacità Gruppo
+
+Nel file `schema.sql`:
+
+```sql
+max_capacity INTEGER NOT NULL DEFAULT 12,  -- Cambia 12
+```
+
+### Personalizzare Colori
+
+Modifica `tailwind.config.js` o i componenti:
 
 ```js
-theme: {
-  extend: {
-    colors: {
-      primary: '#your-color',
-    },
-  },
-},
+// Colori principali usati:
+// Rosso: from-red-700 to-red-900 (tema principale)
+// Verde: green-600 (conferma/successo)
+// Ambra: amber-500 (avvisi/info)
 ```
 
 ## 🔒 Sicurezza
 
-- **Row Level Security (RLS)** abilitato su tutte le tabelle
-- Politiche di accesso configurate per limitare operazioni
-- Validazione lato server per tutte le operazioni critiche
-- Verifiche di disponibilità atomiche
+- **Row Level Security (RLS)** attivo su tutte le tabelle
+- Politiche di accesso configurate:
+  - Lettura pubblica eventi attivi
+  - Lettura pubblica slot disponibili
+  - Inserimento pubblico prenotazioni (con validazione)
+- Validazione lato server per disponibilità
+- Verifiche atomiche per evitare overbooking
+- Variabili d'ambiente per credenziali sensibili
 
 ## 📦 Build per Produzione
 
 ```bash
+# Build ottimizzata
 npm run build
+
+# Preview della build
+npm run preview
 ```
 
-I file ottimizzati saranno nella cartella `dist/`
+I file ottimizzati saranno in `dist/`
 
-### Deploy
+### Deploy Consigliati
 
-Deploy consigliati:
-- **Vercel**: Deploy automatico da Git
-- **Netlify**: Continuous deployment
-- **Cloudflare Pages**: Edge computing
-
+**Vercel** (Consigliato):
 ```bash
-# Esempio con Vercel
 npm i -g vercel
 vercel
 ```
 
-## 🧪 Testing
+**Netlify**:
+```bash
+npm install netlify-cli -g
+netlify deploy --prod
+```
+
+**Cloudflare Pages**: Deploy diretto da GitHub
+
+## 🛠️ Struttura Progetto
+
+```
+thegallery/
+├── src/
+│   ├── components/              # Componenti React
+│   │   ├── EventList.jsx       # Lista 4 eventi
+│   │   ├── TimeSlotSelector.jsx # Selezione orario
+│   │   ├── BookingForm.jsx     # Form prenotazione
+│   │   └── BookingConfirmation.jsx # Conferma
+│   ├── services/
+│   │   └── eventService.js     # API Supabase
+│   ├── lib/
+│   │   └── supabase.js         # Config Supabase
+│   ├── App.jsx                 # Router principale
+│   ├── main.jsx                # Entry point
+│   └── index.css               # Tailwind CSS
+├── supabase/
+│   ├── schema.sql              # Schema database
+│   └── seed.sql                # Dati eventi
+├── public/                     # Asset statici
+├── .env.example                # Template variabili
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+└── README.md
+```
+
+## 🧪 Testing e Sviluppo
 
 ```bash
 # Lint del codice
 npm run lint
 
-# Preview build di produzione
-npm run preview
+# Build di test
+npm run build && npm run preview
 ```
 
-## 🛠️ Sviluppo
+## 📞 Supporto e Troubleshooting
 
-### Struttura Progetto
+### Problemi Comuni
 
-```
-frontend/
-├── src/
-│   ├── components/        # Componenti React
-│   │   ├── EventList.jsx
-│   │   ├── TimeSlotSelector.jsx
-│   │   ├── BookingForm.jsx
-│   │   └── BookingConfirmation.jsx
-│   ├── services/          # API e logica business
-│   │   └── eventService.js
-│   ├── lib/              # Configurazioni
-│   │   └── supabase.js
-│   ├── App.jsx           # Componente principale
-│   └── main.jsx          # Entry point
-├── supabase/             # Database schema e seed
-│   ├── schema.sql
-│   └── seed.sql
-└── public/               # Asset statici
-```
+**1. Errore connessione Supabase**
+- Verifica `.env` con URL e chiave corretti
+- Controlla che il progetto Supabase sia attivo
+- Verifica le politiche RLS nel dashboard Supabase
 
-## 🔄 Aggiungere Nuovi Eventi
+**2. Slot non visualizzati**
+- Verifica che `seed.sql` sia stato eseguito
+- Controlla che la funzione `generate_time_slots` sia stata creata
+- Verifica le date degli eventi (devono essere future)
 
-1. Inserisci nella tabella `events`:
-
-```sql
-INSERT INTO events (title, description, event_date, price, status)
-VALUES ('Nuovo Evento', 'Descrizione...', '2024-12-20', 30.00, 'active');
-```
-
-2. Genera gli slot:
-
-```sql
-SELECT generate_time_slots('id-del-nuovo-evento');
-```
-
-## 💳 Integrazione Pagamenti
-
-Il sistema è predisposto per l'integrazione con Stripe:
-
-1. Installa Stripe:
-
-```bash
-npm install @stripe/stripe-js
-```
-
-2. Aggiungi la chiave in `.env`:
-
-```env
-VITE_STRIPE_PUBLIC_KEY=pk_test_...
-```
-
-3. Implementa il componente di pagamento nel `BookingForm.jsx`
-
-## 📞 Supporto
-
-Per problemi o domande:
-- Verifica la console del browser per errori
-- Controlla i log di Supabase
-- Verifica che le variabili d'ambiente siano corrette
+**3. Errore prenotazione**
+- Verifica disponibilità posti nello slot
+- Controlla i log del browser (console)
+- Verifica i log di Supabase (sezione Logs)
 
 ## 📝 TODO e Miglioramenti Futuri
 
-- [ ] Autenticazione utenti con Supabase Auth
-- [ ] Email di conferma automatiche
-- [ ] Dashboard admin per gestione eventi
-- [ ] Sistema di review e rating
+- [ ] Email di conferma automatiche (Supabase + SendGrid)
+- [ ] Dashboard admin per gestire prenotazioni
 - [ ] Export prenotazioni in CSV/Excel
-- [ ] Notifiche push per promemoria
-- [ ] QR Code per ingresso eventi
+- [ ] QR Code nel codice prenotazione
 - [ ] Sistema di cancellazione prenotazioni
-- [ ] Multi-lingua (i18n)
+- [ ] Notifiche SMS reminder
+- [ ] Mappa interattiva del percorso
+- [ ] Galleria foto edizioni precedenti
+- [ ] Recensioni e feedback post-evento
+- [ ] Integrazione pagamento online (Stripe)
+
+## 👥 Crediti
+
+Sistema sviluppato per i **Quadri Plastici di Avigliano**
+In collaborazione con **Regione Basilicata**
+
+### Tecnologie Utilizzate
+- React 18
+- Vite
+- Supabase
+- Tailwind CSS
+- date-fns
 
 ## 📄 Licenza
 
-Questo progetto è fornito come esempio. Personalizza secondo le tue esigenze.
+Questo progetto è sviluppato per l'evento "Quadri Plastici di Avigliano".
 
 ---
 
-Sviluppato con ❤️ usando React, Vite e Supabase
+**Avigliano (PZ)** - Centro Storico
+Un evento della tradizione lucana 🎭
