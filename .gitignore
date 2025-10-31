@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Build archives
+*.tar.gz
+*.zip
+
 # Environment variables
 .env
 .env.local
